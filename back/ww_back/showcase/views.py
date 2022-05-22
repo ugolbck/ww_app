@@ -1,14 +1,16 @@
-from django.http import Http404
 from django.shortcuts import render, get_object_or_404
 from .models import Item
+from django.views import generic
 
 
-def items(request):
-    latest_items = Item.objects.order_by('-publication_date')[:5]
-    context = {'latest_items': latest_items}
-    return render(request, 'showcase/index.html', context)
+class ItemsView(generic.ListView):
+    template_name = 'showcase/index.html'
+    context_object_name = 'latest_items'
+
+    def get_queryset(self):
+        return Item.objects.order_by('-publication_date')[:5]
 
 
-def item(request, item_id):
-    item = get_object_or_404(Item, pk=item_id)
-    return render(request, 'showcase/item.html', {'item': item})
+class ItemView(generic.DetailView):
+    model = Item
+    template_name = 'showcase/item.html'

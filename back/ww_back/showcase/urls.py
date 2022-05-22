@@ -4,6 +4,6 @@ from . import views
 
 app_name = 'showcase'
 urlpatterns = [
-    path('', views.items, name='items'),
-    path('items/<int:item_id>', views.item, name='item')
+    path('', views.ItemsView.as_view(), name='items'),
+    path('items/<int:pk>', views.ItemView.as_view(), name='item')
 ]
